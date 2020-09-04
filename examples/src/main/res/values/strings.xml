@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name_release">Weex Examples</string>
+    <string name="app_name_debug">Weex Examples (Debug)</string>
+</resources>

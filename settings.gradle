@@ -1,0 +1,2 @@
+include ':weex-support-library'
+include ':examples'
