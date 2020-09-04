@@ -93,6 +93,8 @@ dependencies {
     implementation "com.dailystudio:devbricksx-java-annotations:${project.ext.devbricksxVersion}"
     implementation "com.dailystudio:devbricksx-kotlin-annotations:${project.ext.devbricksxVersion}"
 
+    implementation project(':weex-support-library')
+
     kapt "com.dailystudio:devbricksx-java-compiler:${project.ext.devbricksxVersion}"
     kapt "com.dailystudio:devbricksx-kotlin-compiler:${project.ext.devbricksxVersion}"
 

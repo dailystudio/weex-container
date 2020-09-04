@@ -1,19 +1,20 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion COMPILE_SDK
+    buildToolsVersion BUILD_TOOLS
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -22,15 +23,44 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    api "com.dailystudio:devbricksx:${project.ext.devbricksxVersion}"
+
+    api "com.squareup.retrofit2:retrofit:${project.ext.retrofitVersion}"
+    api "com.squareup.retrofit2:converter-gson:${project.ext.retrofitVersion}"
+
+    implementation "org.apache.weex:sdk:${project.ext.weexSdkVersion}"
+    implementation "com.taobao.android.weex_inspection:urlconnection_interceptor:${project.ext.weexUrlConnectionVersion}"
+
+    implementation "com.alibaba:fastjson:${project.ext.fastJsonVersion}"
+    implementation "com.google.zxing:core:${project.ext.zxingVersion}"
+    implementation ("com.journeyapps:zxing-android-embedded:${project.ext.zxingEmbeddedVersion}") {
+        transitive = false
+    }
+
+    implementation "com.squareup.okhttp:okhttp:${project.ext.okHttpVersion}"
+    implementation "com.squareup.okhttp:okhttp-ws:${project.ext.okHttpVersion}"
+    implementation "com.squareup.picasso:picasso:${project.ext.picassoVersion}"
+
+}
+
+
+publish {
+    userOrg = 'dailystudio'
+    groupId = 'com.dailystudio'
+    artifactId = 'weex-support-library'
+    publishVersion = VERSION_NAME
+    desc = 'Weex support library for Android'
+    bintrayUser = BINTRAY_USER
+    bintrayKey = BINTRAY_KEY
+    website = 'https://github.com/dailystudio/weex-container'
 }
