@@ -29,9 +29,9 @@ import android.view.Gravity;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.taobao.weex.WXSDKManager;
-import com.taobao.weex.adapter.DrawableStrategy;
-import com.taobao.weex.adapter.IDrawableLoader;
+import org.apache.weex.WXSDKManager;
+import org.apache.weex.adapter.DrawableStrategy;
+import org.apache.weex.adapter.IDrawableLoader;
 
 public class PicassoBasedDrawableLoader implements IDrawableLoader {
 

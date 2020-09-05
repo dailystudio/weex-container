@@ -19,12 +19,12 @@
 package org.apache.weex.commons;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.taobao.weex.WXSDKInstance;
+import org.apache.weex.WXSDKInstance;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -51,7 +51,7 @@ public final class WXAnalyzerDelegate {
             return;
         }
         try {
-            Class clazz = Class.forName("com.taobao.weex.analyzer.WeexDevOptions");
+            Class clazz = Class.forName("org.apache.weex.analyzer.WeexDevOptions");
             Constructor constructor = clazz.getDeclaredConstructor(Context.class);
             mWXAnalyzer = constructor.newInstance(context);
         } catch (Exception e) {

@@ -19,9 +19,9 @@
 package org.apache.weex.commons;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.ViewGroup;
-import com.taobao.weex.WXSDKInstance;
+import org.apache.weex.WXSDKInstance;
 
 /**
  * Basic Weex powered Activity.

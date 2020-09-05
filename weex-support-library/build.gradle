@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.novoda.bintray-release'
+apply from: 'download.gradle'
 
 android {
     compileSdkVersion COMPILE_SDK
@@ -38,18 +39,21 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:${project.ext.retrofitVersion}"
     api "com.squareup.retrofit2:converter-gson:${project.ext.retrofitVersion}"
 
-    implementation "org.apache.weex:sdk:${project.ext.weexSdkVersion}"
-    implementation "com.taobao.android.weex_inspection:urlconnection_interceptor:${project.ext.weexUrlConnectionVersion}"
+    api "org.apache.weex:sdk:${project.ext.weexSdkVersion}"
+    api "com.taobao.android.weex_inspection:urlconnection_interceptor:${project.ext.weexUrlConnectionVersion}"
+    api 'com.squareup.picasso:picasso:2.5.2'
+    api 'com.facebook.fresco:fresco:0.10.0'
+    api 'com.taobao.android.weex_inspection:protocol:1.1.4.1'
 
-    implementation "com.alibaba:fastjson:${project.ext.fastJsonVersion}"
-    implementation "com.google.zxing:core:${project.ext.zxingVersion}"
-    implementation ("com.journeyapps:zxing-android-embedded:${project.ext.zxingEmbeddedVersion}") {
+    api "com.alibaba:fastjson:${project.ext.fastJsonVersion}"
+    api "com.google.zxing:core:${project.ext.zxingVersion}"
+    api ("com.journeyapps:zxing-android-embedded:${project.ext.zxingEmbeddedVersion}") {
         transitive = false
     }
 
-    implementation "com.squareup.okhttp:okhttp:${project.ext.okHttpVersion}"
-    implementation "com.squareup.okhttp:okhttp-ws:${project.ext.okHttpVersion}"
-    implementation "com.squareup.picasso:picasso:${project.ext.picassoVersion}"
+    api "com.squareup.okhttp:okhttp:${project.ext.okHttpVersion}"
+    api "com.squareup.okhttp:okhttp-ws:${project.ext.okHttpVersion}"
+    api "com.squareup.picasso:picasso:${project.ext.picassoVersion}"
 
 }
 

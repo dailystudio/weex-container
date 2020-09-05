@@ -19,10 +19,10 @@
 package org.apache.weex.commons.adapter;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.taobao.weex.utils.WXLogUtils;
+import org.apache.weex.utils.WXLogUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

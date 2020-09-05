@@ -18,8 +18,8 @@
  */
 package org.apache.weex.commons.adapter;
 
-import com.taobao.weex.appfram.websocket.IWebSocketAdapter;
-import com.taobao.weex.appfram.websocket.IWebSocketAdapterFactory;
+import org.apache.weex.appfram.websocket.IWebSocketAdapter;
+import org.apache.weex.appfram.websocket.IWebSocketAdapterFactory;
 
 /**
  * Created by moxun on 16/12/28.

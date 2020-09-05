@@ -18,7 +18,7 @@
  */
 package org.apache.weex.commons.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.apache.weex.commons.util.WSEventReporter;
 import com.squareup.okhttp.Headers;
@@ -28,9 +28,9 @@ import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ws.WebSocket;
 import com.squareup.okhttp.ws.WebSocketCall;
 import com.squareup.okhttp.ws.WebSocketListener;
-import com.taobao.weex.appfram.websocket.IWebSocketAdapter;
-import com.taobao.weex.appfram.websocket.WebSocketCloseCodes;
-import com.taobao.weex.http.Status;
+import org.apache.weex.appfram.websocket.IWebSocketAdapter;
+import org.apache.weex.appfram.websocket.WebSocketCloseCodes;
+import org.apache.weex.http.Status;
 
 import java.io.EOFException;
 import java.io.IOException;

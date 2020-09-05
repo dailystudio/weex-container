@@ -18,8 +18,9 @@
  */
 package org.apache.weex.commons.util;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Pair;
+
 
 import com.taobao.weex.devtools.inspector.network.NetworkEventReporter;
 import com.taobao.weex.devtools.inspector.network.NetworkEventReporterManager;
