@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.dailystudio.weex.examples"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 28
         versionCode Integer.parseInt(appVersionCode)
         versionName appVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
