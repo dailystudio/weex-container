@@ -21,7 +21,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,11 +29,25 @@
 
         <fragment
             android:name="com.dailystudio.weex.fragment.WEEXFragment"
-            android:id="@+id/fragment_weex"
+            android:id="@+id/fragment_weex1"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"/>
 
-    </FrameLayout>
+        <fragment
+            android:name="com.dailystudio.weex.fragment.WEEXFragment"
+            android:id="@+id/fragment_weex2"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+       <fragment
+            android:name="com.dailystudio.weex.fragment.WEEXFragment"
+            android:id="@+id/fragment_weex3"
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"/>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
