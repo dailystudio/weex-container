@@ -49,6 +49,7 @@ class MainActivity : AbstractWeexActivity() {
             urlFromQRCode?.let {
 //                renderPageByURL(it)
                 val intent = Intent(WEEXPlayground.ACTION_VIEW_WEEX)
+//                val intent = Intent("com.taobao.android.intent.action.WEEX")
                 intent.data = Uri.parse(urlFromQRCode)
 
                 ActivityLauncher.launchActivity(this, intent)

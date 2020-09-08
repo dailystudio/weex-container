@@ -78,6 +78,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.dailystudio.devbricksx.development.Logger;
 import com.dailystudio.weex.R;
 
 
@@ -279,14 +280,20 @@ public class WXPageActivity extends WXBaseActivity implements IWXRenderListener,
           Uri uri = Uri.parse(url);
           mConfigMap.put("bundleUrl", url);
           if(TextUtils.equals(uri.getQueryParameter("__eagle"), Boolean.TRUE.toString())){
+            Logger.INSTANCE.debug("render: __eagle");
             mInstance.render(TAG, task.response.data, mConfigMap, null);
           }
           else if (TextUtils.equals(uri.getQueryParameter("__data_render"), Boolean.TRUE.toString())){
+            Logger.INSTANCE.debug("render: __data_render");
             mInstance.render(TAG, new String(task.response.data, "UTF-8"), mConfigMap, null, WXRenderStrategy.DATA_RENDER);
           }else if (TextUtils.equals(uri.getQueryParameter("__json_render"), Boolean.TRUE.toString())){
+            Logger.INSTANCE.debug("render: __json_render");
             mInstance.render(TAG, new String(task.response.data, "UTF-8"), mConfigMap, null, WXRenderStrategy.JSON_RENDER);
           } else {
-            mInstance.render(TAG, new String(task.response.data, "utf-8"), mConfigMap, null, WXRenderStrategy.APPEND_ASYNC);
+            Logger.INSTANCE.debug("render: rest");
+            String template = new String(task.response.data, "utf-8");
+            Logger.INSTANCE.debug("page content: [%s]", template);
+            mInstance.render(TAG, template, mConfigMap, null, WXRenderStrategy.APPEND_ASYNC);
           }
         } catch (UnsupportedEncodingException e) {
           e.printStackTrace();
