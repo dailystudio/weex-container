@@ -1,9 +1,8 @@
 package com.dailystudio.weex.fragment
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +21,6 @@ import org.apache.weex.constants.Constants
 import org.apache.weex.https.WXHttpManager
 import org.apache.weex.https.WXHttpTask
 import org.apache.weex.https.WXRequestListener
-import org.apache.weex.utils.WXLogUtils
 import java.io.UnsupportedEncodingException
 import java.lang.Boolean
 import java.util.*
@@ -52,6 +50,74 @@ class WEEXFragment: Fragment() {
     private fun setupViews(fragmentView: View) {
         mContainer = fragmentView.findViewById(R.id.container)
         mProgressBar = fragmentView.findViewById(R.id.progress)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        Logger.debug("[WXLifecycle] activity created: $mInstance")
+
+        mInstance?.onActivityCreate()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        Logger.debug("[WXLifecycle] activity started: $mInstance")
+        mInstance?.onActivityStart()
+        mWxAnalyzerDelegate?.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        Logger.debug("[WXLifecycle] activity stopped: $mInstance")
+        mInstance?.onActivityStop()
+        mWxAnalyzerDelegate?.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Logger.debug("[WXLifecycle] activity resumed: $mInstance")
+        mInstance?.onActivityResume()
+        mWxAnalyzerDelegate?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        Logger.debug("[WXLifecycle] activity paused: $mInstance")
+        mInstance?.onActivityPause()
+        mWxAnalyzerDelegate?.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Logger.debug("[WXLifecycle] activity destroyed: $mInstance")
+        mInstance?.onActivityDestroy()
+        mWxAnalyzerDelegate?.onDestroy()
+
+        mContainer = null
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        mInstance?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        mInstance?.onActivityResult(requestCode, resultCode, data)
     }
 
     fun loadPageByUrl(uri: Uri) {
@@ -89,6 +155,7 @@ class WEEXFragment: Fragment() {
         }
 
         requestUrl(url)
+        Logger.debug("[WXLifecycle]: URL requested: $mInstance")
     }
 
     private fun requestUrl(url: String) {
@@ -188,6 +255,7 @@ class WEEXFragment: Fragment() {
     private val renderListener = object: IWXRenderListener {
 
         override fun onViewCreated(instance: WXSDKInstance?, view: View) {
+            Logger.debug("[WXLifecycle] view created: $mInstance")
             var view = view
             Logger.debug("renderSuccess: instance = $instance, view = $view")
             var wrappedView: View? =
@@ -204,6 +272,7 @@ class WEEXFragment: Fragment() {
         }
 
         override fun onRenderSuccess(instance: WXSDKInstance?, width: Int, height: Int) {
+            Logger.debug("[WXLifecycle] view rendered: $mInstance")
             mWxAnalyzerDelegate?.onWeexRenderSuccess(instance)
 
             mProgressBar?.visibility = View.GONE
@@ -211,13 +280,17 @@ class WEEXFragment: Fragment() {
         }
 
         override fun onRefreshSuccess(instance: WXSDKInstance?, width: Int, height: Int) {
+            Logger.debug("[WXLifecycle] refreshed: $mInstance")
+
             mProgressBar?.visibility = View.GONE
             requestLayout()
         }
 
-        override fun onException(
-            instance: WXSDKInstance?, errCode: String,
-            msg: String) {
+        override fun onException(instance: WXSDKInstance?,
+                                 errCode: String,
+                                 msg: String) {
+            Logger.debug("[WXLifecycle] exception occurred: $mInstance")
+
             mWxAnalyzerDelegate?.onException(instance, errCode, msg)
 
             mProgressBar?.visibility = View.GONE
