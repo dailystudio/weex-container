@@ -2,6 +2,8 @@ package com.dailystudio.weex.fragment
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -188,8 +190,6 @@ class WEEXFragment: Fragment() {
         override fun onViewCreated(instance: WXSDKInstance?, view: View) {
             var view = view
             Logger.debug("renderSuccess: instance = $instance, view = $view")
-
-            WXLogUtils.e("into--[onViewCreated]")
             var wrappedView: View? =
                 mWxAnalyzerDelegate?.onWeexViewCreated(instance, view)
 
@@ -200,18 +200,19 @@ class WEEXFragment: Fragment() {
             if (view.parent == null) {
                 mContainer?.addView(view)
             }
-
-            mContainer?.requestLayout()
+            requestLayout()
         }
 
         override fun onRenderSuccess(instance: WXSDKInstance?, width: Int, height: Int) {
             mWxAnalyzerDelegate?.onWeexRenderSuccess(instance)
 
             mProgressBar?.visibility = View.GONE
+            requestLayout()
         }
 
         override fun onRefreshSuccess(instance: WXSDKInstance?, width: Int, height: Int) {
             mProgressBar?.visibility = View.GONE
+            requestLayout()
         }
 
         override fun onException(
@@ -242,6 +243,9 @@ class WEEXFragment: Fragment() {
             }
         }
 
-    }
+        private fun requestLayout() {
+            view?.requestLayout()
+        }
 
+    }
 }
