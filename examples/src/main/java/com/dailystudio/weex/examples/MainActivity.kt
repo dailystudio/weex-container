@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dailystudio.devbricksx.app.activity.ActivityLauncher
 import com.dailystudio.devbricksx.development.Logger
+import com.dailystudio.weex.WEEXPlayground
 import com.dailystudio.weex.activity.CaptureActivityPortrait
 import com.google.zxing.integration.android.IntentIntegrator
 import org.apache.weex.commons.AbstractWeexActivity
@@ -47,7 +48,7 @@ class MainActivity : AbstractWeexActivity() {
             Logger.debug("url from QR code: $urlFromQRCode")
             urlFromQRCode?.let {
 //                renderPageByURL(it)
-                val intent = Intent("com.taobao.android.intent.action.WEEX")
+                val intent = Intent(WEEXPlayground.ACTION_VIEW_WEEX)
                 intent.data = Uri.parse(urlFromQRCode)
 
                 ActivityLauncher.launchActivity(this, intent)
