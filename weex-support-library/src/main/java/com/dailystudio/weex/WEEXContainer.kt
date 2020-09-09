@@ -1,8 +1,6 @@
 package com.dailystudio.weex
 
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -17,90 +15,81 @@ import org.apache.weex.RenderContainer
 import org.apache.weex.WXPreLoadManager
 import org.apache.weex.WXSDKInstance
 import org.apache.weex.common.WXRenderStrategy
-import org.apache.weex.commons.WXAnalyzerDelegate
 import org.apache.weex.constants.Constants
 import org.apache.weex.https.WXHttpManager
 import org.apache.weex.https.WXHttpTask
 import org.apache.weex.https.WXRequestListener
+import org.apache.weex.render.WXAbstractRenderContainer
 import java.io.UnsupportedEncodingException
 import java.lang.Boolean
 import java.util.*
 
-
-class WEEXContainer(val mContainer: ViewGroup,
-                    val containerHolder: View? = null,
-                    val mProgressBar: ProgressBar? = null,
+class WEEXContainer(private val weexHolder: ViewGroup,
+                    private val progressBar: ProgressBar? = null,
                     private val lifecycle: Lifecycle? = null) {
-
-    private var mInstance: WXSDKInstance? = null
-    private val mWxAnalyzerDelegate: WXAnalyzerDelegate? = null
-
-    private val mConfigMap = HashMap<String, Any>()
 
     private val lifecycleObserver = object : LifecycleObserver {
 
         @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
         fun onCreated(source: LifecycleOwner?) {
-            Logger.debug("[WXLifecycle] lifecycle[$source] created: $mInstance")
+            Logger.debug("[WXLifecycle] lifecycle[$source] created: $sdkInstance")
 
-            mInstance?.onActivityCreate()
+            sdkInstance?.onActivityCreate()
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
         fun onStart(source: LifecycleOwner?) {
-            Logger.debug("[WXLifecycle] lifecycle[$source] started: $mInstance")
-            mInstance?.onActivityStart()
-            mWxAnalyzerDelegate?.onStart()
+            Logger.debug("[WXLifecycle] lifecycle[$source] started: $sdkInstance")
+            sdkInstance?.onActivityStart()
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
         fun onStop(source: LifecycleOwner?) {
-            Logger.debug("[WXLifecycle] lifecycle[$source] stopped: $mInstance")
-            mInstance?.onActivityStop()
-            mWxAnalyzerDelegate?.onStop()
+            Logger.debug("[WXLifecycle] lifecycle[$source] stopped: $sdkInstance")
+            sdkInstance?.onActivityStop()
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
         fun onResume(source: LifecycleOwner?) {
-            Logger.debug("[WXLifecycle] lifecycle[$source] resumed: $mInstance")
-            mInstance?.onActivityResume()
-            mWxAnalyzerDelegate?.onResume()
+            Logger.debug("[WXLifecycle] lifecycle[$source] resumed: $sdkInstance")
+            sdkInstance?.onActivityResume()
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         fun onPause(source: LifecycleOwner?) {
-            Logger.debug("[WXLifecycle]  lifecycle[$source] paused: $mInstance")
-            mInstance?.onActivityPause()
-            mWxAnalyzerDelegate?.onPause()
+            Logger.debug("[WXLifecycle]  lifecycle[$source] paused: $sdkInstance")
+            sdkInstance?.onActivityPause()
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun onDestroy(source: LifecycleOwner?) {
-            Logger.debug("[WXLifecycle]  lifecycle[$source] destroyed: $mInstance")
-            mInstance?.onActivityDestroy()
-            mWxAnalyzerDelegate?.onDestroy()
+            Logger.debug("[WXLifecycle]  lifecycle[$source] destroyed: $sdkInstance")
+            sdkInstance?.onActivityDestroy()
         }
 
     }
 
+    private var sdkInstance: WXSDKInstance? = null
+    private val configMap = HashMap<String, Any>()
+    private var renderContainer: WXAbstractRenderContainer? = null
+
     init {
-        Logger.debug("lifecycle = $lifecycle")
-        Logger.debug("lifecycleObserver = $lifecycleObserver")
         lifecycle?.let {
             it.addObserver(lifecycleObserver)
         }
     }
 
     fun loadPageByUrl(uri: Uri) {
-        val context = mContainer.context
+        val context = weexHolder.context
 
-        mProgressBar?.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
 
-        mInstance?.destroy()
-        mContainer.removeAllViews()
+        sdkInstance?.destroy()
+        weexHolder.removeAllViews()
 
         val renderContainer = RenderContainer(context)
-        mContainer.addView(renderContainer)
+        weexHolder.addView(renderContainer)
+        this.renderContainer = renderContainer
 
         var url: String? = null
 
@@ -121,14 +110,14 @@ class WEEXContainer(val mContainer: ViewGroup,
             return
         }
 
-        mInstance = createWeexInstance(url, renderContainer)
+        sdkInstance = createWeexInstance(url, renderContainer)
 
-        if (mInstance?.isPreDownLoad == true) {
+        if (sdkInstance?.isPreDownLoad == true) {
             return
         }
 
         requestUrl(url)
-        Logger.debug("[WXLifecycle]: URL requested: $mInstance")
+        Logger.debug("[WXLifecycle]: URL requested: $sdkInstance")
     }
 
     private fun requestUrl(url: String) {
@@ -143,21 +132,21 @@ class WEEXContainer(val mContainer: ViewGroup,
                     val uri = Uri.parse(url)
                     val charsetUtf8 = Charsets.UTF_8
                     val pageName = "WeexPage"
-                    mConfigMap["bundleUrl"] = url
+                    configMap["bundleUrl"] = url
 
                     when {
                         TextUtils.equals(uri.getQueryParameter("__eagle"),
                             Boolean.TRUE.toString()) -> {
-                            mInstance?.render(pageName,
-                                task.response.data, mConfigMap, null)
+                            sdkInstance?.render(pageName,
+                                task.response.data, configMap, null)
                         }
 
                         TextUtils.equals(uri.getQueryParameter("__data_render"),
                             Boolean.TRUE.toString()) -> {
-                            mInstance?.render(
+                            sdkInstance?.render(
                                 pageName,
                                 String(task.response.data, charsetUtf8),
-                                mConfigMap,
+                                configMap,
                                 null,
                                 WXRenderStrategy.DATA_RENDER
                             )
@@ -165,10 +154,10 @@ class WEEXContainer(val mContainer: ViewGroup,
 
                         TextUtils.equals(uri.getQueryParameter("__json_render"),
                             Boolean.TRUE.toString()) -> {
-                            mInstance?.render(
+                            sdkInstance?.render(
                                 pageName,
                                 String(task.response.data, charsetUtf8),
-                                mConfigMap,
+                                configMap,
                                 null,
                                 WXRenderStrategy.JSON_RENDER
                             )
@@ -178,10 +167,10 @@ class WEEXContainer(val mContainer: ViewGroup,
                             Logger.debug("render rest")
                             val template = String(task.response.data, charsetUtf8)
                             Logger.debug("page content: [$template]")
-                            mInstance!!.render(
+                            sdkInstance!!.render(
                                 pageName,
                                 template,
-                                mConfigMap,
+                                configMap,
                                 null,
                                 WXRenderStrategy.APPEND_ASYNC
                             )
@@ -194,7 +183,7 @@ class WEEXContainer(val mContainer: ViewGroup,
 
             override fun onError(task: WXHttpTask) {
                 Logger.error("download page failed: ${task.response}")
-                mProgressBar?.visibility = View.GONE
+                progressBar?.visibility = View.GONE
             }
 
         }
@@ -203,9 +192,8 @@ class WEEXContainer(val mContainer: ViewGroup,
     }
 
     private fun createWeexInstance(url: String,
-                                   renderContainer: RenderContainer
-    ): WXSDKInstance {
-        val context = mContainer.context
+                                   renderContainer: WXAbstractRenderContainer): WXSDKInstance {
+        val context = weexHolder.context
 
         val sdkInstance = WXPreLoadManager.getInstance()
             .offerPreInitInstance(url)?.apply {
@@ -229,48 +217,33 @@ class WEEXContainer(val mContainer: ViewGroup,
     private val renderListener = object: IWXRenderListener {
 
         override fun onViewCreated(instance: WXSDKInstance?, view: View) {
-            Logger.debug("[WXLifecycle] view created: $mInstance")
-            var view = view
-            Logger.debug("renderSuccess: instance = $instance, view = $view")
-            var wrappedView: View? =
-                mWxAnalyzerDelegate?.onWeexViewCreated(instance, view)
+            Logger.debug("[WXLifecycle] view created: $sdkInstance")
 
-            if (wrappedView != null) {
-                view = wrappedView
-            }
-
-            if (view.parent == null) {
-                mContainer.addView(view)
-            }
-
-            mContainer.requestLayout()
+            weexHolder.requestLayout()
         }
 
         override fun onRenderSuccess(instance: WXSDKInstance?, width: Int, height: Int) {
-            Logger.debug("[WXLifecycle] view rendered: $mInstance")
-            mWxAnalyzerDelegate?.onWeexRenderSuccess(instance)
+            Logger.debug("[WXLifecycle] view rendered: $sdkInstance, container = $renderContainer dimen: [$width x $height]")
 
-            mProgressBar?.visibility = View.GONE
+            progressBar?.visibility = View.GONE
 
-            forceHolderLayout()
+            ensureLayoutOnSize(width, height)
         }
 
         override fun onRefreshSuccess(instance: WXSDKInstance?, width: Int, height: Int) {
-            Logger.debug("[WXLifecycle] refreshed: $mInstance")
+            Logger.debug("[WXLifecycle] refreshed: $sdkInstance")
 
-            mProgressBar?.visibility = View.GONE
+            progressBar?.visibility = View.GONE
 
-            forceHolderLayout()
-        }
+            ensureLayoutOnSize(width, height)
+       }
 
         override fun onException(instance: WXSDKInstance?,
                                  errCode: String,
                                  msg: String) {
-            Logger.debug("[WXLifecycle] exception occurred: $mInstance")
+            Logger.debug("[WXLifecycle] exception occurred: $sdkInstance")
 
-            mWxAnalyzerDelegate?.onException(instance, errCode, msg)
-
-            mProgressBar?.visibility = View.GONE
+            progressBar?.visibility = View.GONE
 
             if (!TextUtils.isEmpty(errCode) && errCode.contains("|")) {
                 val errCodeList =
@@ -293,16 +266,17 @@ class WEEXContainer(val mContainer: ViewGroup,
             }
         }
 
-        private fun forceHolderLayout() {
-            val view = containerHolder ?: mContainer.parent ?: return
+        private fun ensureLayoutOnSize(width: Int, height: Int) {
+            Logger.debug("[WXLifecycle] request layout: container = $renderContainer")
 
-            handler.postDelayed({
-                Logger.debug("[WXLifecycle] request layout[view = $view]: $mInstance")
-                mContainer.forceLayout()
-                (view as View).forceLayout()
-            }, 500)
+            val lp = renderContainer?.layoutParams ?: return
+
+            lp.width = width
+            lp.height = height
+
+            renderContainer?.layoutParams = lp
+            renderContainer?.requestLayout()
         }
     }
 
-    private val handler = Handler(Looper.getMainLooper())
 }

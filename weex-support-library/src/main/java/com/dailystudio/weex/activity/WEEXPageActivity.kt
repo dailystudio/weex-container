@@ -27,19 +27,9 @@ class WEEXPageActivity: DevBricksActivity() {
             return
         }
 
-        val fragment1 = findFragment(R.id.fragment_weex1)
-        if (fragment1 is WEEXFragment) {
-            fragment1.loadPageByUrl(uri)
-        }
-
-        val fragment2 = findFragment(R.id.fragment_weex2)
-        if (fragment2 is WEEXFragment) {
-            fragment2.loadPageByUrl(uri)
-        }
-
-        val fragment3 = findFragment(R.id.fragment_weex3)
-        if (fragment3 is WEEXFragment) {
-            fragment3.loadPageByUrl(uri)
+        val fragment = findFragment(R.id.fragment_weex)
+        if (fragment is WEEXFragment) {
+            fragment.loadPageByUrl(uri)
         }
     }
 

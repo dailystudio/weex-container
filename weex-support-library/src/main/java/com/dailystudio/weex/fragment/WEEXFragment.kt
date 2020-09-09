@@ -36,7 +36,6 @@ class WEEXFragment: Fragment() {
 
         mContainer?.let {
             container = WEEXContainer(it,
-                fragmentView as ViewGroup,
                 mProgressBar,
                 lifecycle)
         }
