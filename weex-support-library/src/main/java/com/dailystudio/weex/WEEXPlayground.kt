@@ -1,10 +1,9 @@
 package com.dailystudio.weex
 
 import android.app.Application
-import android.util.Log
 import com.dailystudio.devbricksx.development.Logger
-import org.apache.weex.InitConfig
-import org.apache.weex.WXSDKEngine
+import com.taobao.weex.InitConfig
+import com.taobao.weex.WXSDKEngine
 import org.apache.weex.commons.adapter.DefaultWebSocketAdapterFactory
 import org.apache.weex.commons.adapter.ImageAdapter
 import org.apache.weex.commons.adapter.JSExceptionAdapter

@@ -20,8 +20,9 @@ package org.apache.weex;
 
 import android.util.Log;
 
-import org.apache.weex.common.WXRenderStrategy;
-import org.apache.weex.utils.WXLogUtils;
+import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.common.WXRenderStrategy;
+import com.taobao.weex.utils.WXLogUtils;
 
 import java.util.HashMap;
 import java.util.Map;

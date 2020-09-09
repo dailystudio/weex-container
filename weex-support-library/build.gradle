@@ -40,7 +40,7 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:${project.ext.retrofitVersion}"
     api "com.squareup.retrofit2:converter-gson:${project.ext.retrofitVersion}"
 
-    api "org.apache.weex:sdk:${project.ext.weexSdkVersion}"
+    api "org.apache.weex:sdk_legacy:${project.ext.weexSdkVersion}"
     api "com.taobao.android.weex_inspection:urlconnection_interceptor:${project.ext.weexUrlConnectionVersion}"
     api 'com.squareup.picasso:picasso:2.5.2'
     api 'com.facebook.fresco:fresco:0.10.0'

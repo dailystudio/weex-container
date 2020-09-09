@@ -21,10 +21,10 @@ package org.apache.weex.commons.adapter;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import android.widget.ImageView;
-import org.apache.weex.WXSDKInstance;
-import org.apache.weex.ui.action.BasicComponentData;
-import org.apache.weex.ui.component.WXImage;
-import org.apache.weex.ui.component.WXVContainer;
+import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.ui.action.BasicComponentData;
+import com.taobao.weex.ui.component.WXImage;
+import com.taobao.weex.ui.component.WXVContainer;
 
 /**
  * Created by sospartan on 8/19/16.

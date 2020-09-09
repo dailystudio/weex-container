@@ -30,13 +30,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONObject;
+import com.taobao.weex.IWXRenderListener;
+import com.taobao.weex.WXEnvironment;
+import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.common.Constants;
+import com.taobao.weex.common.WXRenderStrategy;
+import com.taobao.weex.utils.WXUtils;
+
 import org.apache.weex.commons.util.AssertUtil;
-import org.apache.weex.IWXRenderListener;
-import org.apache.weex.WXEnvironment;
-import org.apache.weex.WXSDKInstance;
-import org.apache.weex.common.Constants;
-import org.apache.weex.common.WXRenderStrategy;
-import org.apache.weex.utils.WXUtils;
 
 import java.io.File;
 import java.util.HashMap;

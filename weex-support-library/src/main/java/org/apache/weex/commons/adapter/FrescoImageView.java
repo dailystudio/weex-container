@@ -22,8 +22,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import com.facebook.drawee.view.SimpleDraweeView;
-import org.apache.weex.ui.view.gesture.WXGesture;
-import org.apache.weex.ui.view.gesture.WXGestureObservable;
+import com.taobao.weex.ui.view.gesture.WXGesture;
+import com.taobao.weex.ui.view.gesture.WXGestureObservable;
 
 /**
  * Created by sospartan on 8/19/16.

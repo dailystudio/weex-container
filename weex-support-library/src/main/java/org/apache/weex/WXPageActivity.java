@@ -48,25 +48,19 @@ import androidx.collection.ArrayMap;
 
 import com.alibaba.fastjson.JSON;
 
-import org.apache.weex.commons.WXAnalyzerDelegate;
-import org.apache.weex.IWXRenderListener;
-import org.apache.weex.WXSDKEngine;
-import org.apache.weex.WXSDKInstance;
-import org.apache.weex.appfram.navigator.IActivityNavBarSetter;
-import org.apache.weex.common.RenderTypes;
-import org.apache.weex.common.WXRenderStrategy;
-import org.apache.weex.commons.WXAnalyzerDelegate;
-import org.apache.weex.constants.Constants;
-import org.apache.weex.https.HotRefreshManager;
-import org.apache.weex.https.WXHttpManager;
-import org.apache.weex.https.WXHttpTask;
-import org.apache.weex.https.WXRequestListener;
-import org.apache.weex.render.WXAbstractRenderContainer;
-import org.apache.weex.ui.component.NestedContainer;
-import org.apache.weex.ui.component.WXComponent;
-import org.apache.weex.ui.component.WXVContainer;
-import org.apache.weex.utils.WXFileUtils;
-import org.apache.weex.utils.WXLogUtils;
+import com.taobao.weex.IWXRenderListener;
+import com.taobao.weex.RenderContainer;
+import com.taobao.weex.WXSDKEngine;
+import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.appfram.navigator.IActivityNavBarSetter;
+import com.taobao.weex.common.RenderTypes;
+import com.taobao.weex.common.WXRenderStrategy;
+import com.taobao.weex.render.WXAbstractRenderContainer;
+import com.taobao.weex.ui.component.NestedContainer;
+import com.taobao.weex.ui.component.WXComponent;
+import com.taobao.weex.ui.component.WXVContainer;
+import com.taobao.weex.utils.WXFileUtils;
+import com.taobao.weex.utils.WXLogUtils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -80,6 +74,13 @@ import java.util.regex.Pattern;
 
 import com.dailystudio.devbricksx.development.Logger;
 import com.dailystudio.weex.R;
+
+import org.apache.weex.commons.WXAnalyzerDelegate;
+import org.apache.weex.constants.Constants;
+import org.apache.weex.https.HotRefreshManager;
+import org.apache.weex.https.WXHttpManager;
+import org.apache.weex.https.WXHttpTask;
+import org.apache.weex.https.WXRequestListener;
 
 
 public class WXPageActivity extends WXBaseActivity implements IWXRenderListener, Handler.Callback, WXSDKInstance.NestedInstanceInterceptor {

@@ -46,10 +46,10 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.image.QualityInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import org.apache.weex.WXSDKManager;
-import org.apache.weex.adapter.IWXImgLoaderAdapter;
-import org.apache.weex.common.WXImageStrategy;
-import org.apache.weex.dom.WXImageQuality;
+import com.taobao.weex.WXSDKManager;
+import com.taobao.weex.adapter.IWXImgLoaderAdapter;
+import com.taobao.weex.common.WXImageStrategy;
+import com.taobao.weex.dom.WXImageQuality;
 
 public class FrescoImageAdapter implements IWXImgLoaderAdapter {
 

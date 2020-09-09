@@ -18,10 +18,10 @@
  */
 package org.apache.weex.commons.adapter;
 
-import org.apache.weex.WXEnvironment;
-import org.apache.weex.adapter.IWXJSExceptionAdapter;
-import org.apache.weex.common.WXJSExceptionInfo;
-import org.apache.weex.utils.WXLogUtils;
+import com.taobao.weex.WXEnvironment;
+import com.taobao.weex.adapter.IWXJSExceptionAdapter;
+import com.taobao.weex.common.WXJSExceptionInfo;
+import com.taobao.weex.utils.WXLogUtils;
 
 /**
  */

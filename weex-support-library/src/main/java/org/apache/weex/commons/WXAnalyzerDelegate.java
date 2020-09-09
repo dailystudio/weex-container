@@ -24,7 +24,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
-import org.apache.weex.WXSDKInstance;
+import com.taobao.weex.WXSDKInstance;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
