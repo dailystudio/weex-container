@@ -21,18 +21,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <fragment
+        android:name="com.dailystudio.weex.fragment.MultipleWEEXFragment"
+        android:id="@+id/fragment_weexs"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/weex_containers"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </ScrollView>
+        android:layout_height="match_parent"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.dailystudio.devbricksx.app.activity.DevBricksActivity
 import com.dailystudio.devbricksx.development.Logger
 import com.dailystudio.weex.R
-import com.dailystudio.weex.fragment.WEEXFragment
+import com.dailystudio.weex.fragment.SingleWEEXFragment
 
 class WEEXPageActivity: DevBricksActivity() {
 
@@ -28,7 +28,7 @@ class WEEXPageActivity: DevBricksActivity() {
         }
 
         val fragment = findFragment(R.id.fragment_weex)
-        if (fragment is WEEXFragment) {
+        if (fragment is SingleWEEXFragment) {
             fragment.loadPageByUrl(uri)
         }
     }

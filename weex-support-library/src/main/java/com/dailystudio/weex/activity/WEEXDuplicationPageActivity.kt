@@ -2,14 +2,10 @@ package com.dailystudio.weex.activity
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import androidx.lifecycle.lifecycleScope
 import com.dailystudio.devbricksx.app.activity.DevBricksActivity
 import com.dailystudio.devbricksx.development.Logger
 import com.dailystudio.weex.R
-import com.dailystudio.weex.fragment.WEEXFragment
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.dailystudio.weex.fragment.MultipleWEEXFragment
 
 class WEEXDuplicationPageActivity: DevBricksActivity() {
 
@@ -36,26 +32,13 @@ class WEEXDuplicationPageActivity: DevBricksActivity() {
 
     private fun duplicateWeexContainers(uri: Uri,
                                         count: Int) {
-        val weexContainers: View? = findViewById(R.id.weex_containers)
-        val weexs = arrayListOf<WEEXFragment>()
-        weexContainers?.let {
-            for (i in 0 until count) {
-                val ft = supportFragmentManager.beginTransaction()
-
-                val fragment = WEEXFragment()
-
-                ft.add(it.id, fragment, "weex_fragment_$i")
-                ft.commit()
-
-                weexs.add(fragment)
-            }
+        val fragment = findFragment(R.id.fragment_weexs) ?: return
+        if (fragment !is MultipleWEEXFragment) {
+            return
         }
 
-        lifecycleScope.launch {
-            delay(2000)
-            for (fragment in weexs) {
-                fragment.loadPageByUrl(uri)
-            }
+        for (i in 0 until count) {
+            fragment.addWeexByUri("weex_$i", uri)
         }
     }
 

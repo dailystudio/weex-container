@@ -48,8 +48,8 @@ class MainActivity : AbstractWeexActivity() {
             Logger.debug("url from QR code: $urlFromQRCode")
             urlFromQRCode?.let {
 //                renderPageByURL(it)
-//                val intent = Intent(WEEXPlayground.ACTION_VIEW_WEEX)
-                val intent = Intent("com.dailystudio.intent.action.VIEW_WEEX_DUPLICATION")
+                val intent = Intent(WEEXPlayground.ACTION_VIEW_WEEX)
+//                val intent = Intent("com.dailystudio.intent.action.VIEW_WEEX_DUPLICATION")
 //                val intent = Intent("com.taobao.android.intent.action.WEEX")
                 intent.data = Uri.parse(urlFromQRCode)
 

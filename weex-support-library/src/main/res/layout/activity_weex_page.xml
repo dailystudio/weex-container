@@ -29,7 +29,7 @@
         android:layout_height="match_parent">
 
         <fragment
-            android:name="com.dailystudio.weex.fragment.WEEXFragment"
+            android:name="com.dailystudio.weex.fragment.SingleWEEXFragment"
             android:id="@+id/fragment_weex"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

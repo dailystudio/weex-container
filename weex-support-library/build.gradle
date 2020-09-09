@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.bintray-release'
 apply from: 'download.gradle'
 
@@ -54,6 +55,9 @@ dependencies {
     api "com.squareup.okhttp:okhttp:${project.ext.okHttpVersion}"
     api "com.squareup.okhttp:okhttp-ws:${project.ext.okHttpVersion}"
     api "com.squareup.picasso:picasso:${project.ext.picassoVersion}"
+
+    kapt "com.dailystudio:devbricksx-java-compiler:${project.ext.devbricksxVersion}"
+    kapt "com.dailystudio:devbricksx-kotlin-compiler:${project.ext.devbricksxVersion}"
 
 }
 

@@ -120,6 +120,11 @@ class WEEXContainer(private val weexHolder: ViewGroup,
         Logger.debug("[WXLifecycle]: URL requested: $sdkInstance")
     }
 
+    fun release() {
+        sdkInstance?.destroy()
+        sdkInstance = null
+    }
+
     private fun requestUrl(url: String) {
         val httpTask = WXHttpTask()
         httpTask.url = url

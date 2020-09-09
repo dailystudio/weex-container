@@ -11,7 +11,7 @@ import com.dailystudio.devbricksx.development.Logger
 import com.dailystudio.weex.R
 import com.dailystudio.weex.WEEXContainer
 
-class WEEXFragment: Fragment() {
+class SingleWEEXFragment: Fragment() {
 
     private var mContainer: ViewGroup? = null
     private var mProgressBar: ProgressBar? = null
@@ -23,7 +23,7 @@ class WEEXFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_weex, null)
+        val view = inflater.inflate(R.layout.fragment_single_weex, null)
 
         setupViews(view)
 
