@@ -29,7 +29,8 @@ class WEEXPageActivity: DevBricksActivity() {
 
         val fragment = findFragment(R.id.fragment_weex)
         if (fragment is SingleWEEXFragment) {
-            fragment.loadPageByUrl(uri)
+//            fragment.loadPageByUrl(uri)
+            fragment.loadPageFromAsset(uri)
         }
     }
 

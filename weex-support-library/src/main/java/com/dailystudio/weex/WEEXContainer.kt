@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.dailystudio.devbricksx.development.Logger
+import com.dailystudio.devbricksx.utils.FileUtils
 import com.taobao.weex.IWXRenderListener
 import com.taobao.weex.RenderContainer
 import com.taobao.weex.WXSDKInstance
@@ -24,9 +25,11 @@ import java.io.UnsupportedEncodingException
 import java.lang.Boolean
 import java.util.*
 
-class WEEXContainer(private val weexHolder: ViewGroup,
-                    private val progressBar: ProgressBar? = null,
-                    private val lifecycle: Lifecycle? = null) {
+class WEEXContainer(
+    private val weexHolder: ViewGroup,
+    private val progressBar: ProgressBar? = null,
+    private val lifecycle: Lifecycle? = null
+) {
 
     private val lifecycleObserver = object : LifecycleObserver {
 
@@ -110,7 +113,7 @@ class WEEXContainer(private val weexHolder: ViewGroup,
             return
         }
 
-        sdkInstance = createWeexInstance(url, renderContainer)
+        sdkInstance = createWeexInstance(renderContainer, url)
 
         if (sdkInstance?.isPreDownLoad == true) {
             return
@@ -118,6 +121,34 @@ class WEEXContainer(private val weexHolder: ViewGroup,
 
         requestUrl(url)
         Logger.debug("[WXLifecycle]: URL requested: $sdkInstance")
+    }
+
+    fun loadFromAsset(uri: Uri) {
+        val context = weexHolder.context
+
+        progressBar?.visibility = View.GONE
+
+        sdkInstance?.destroy()
+        weexHolder.removeAllViews()
+
+        val renderContainer = RenderContainer(context)
+        weexHolder.addView(renderContainer)
+        this.renderContainer = renderContainer
+
+        val assetFile: String? = "${uri.path?.replaceFirst("/", "")}"
+        if (assetFile == null) {
+            Logger.error("failed to parse asset path from uri: $uri")
+
+            return
+        }
+
+        sdkInstance = createWeexInstance(renderContainer, null)
+        Logger.debug("[WXLifecycle]: load from asset: $sdkInstance, asset = [$assetFile]")
+        sdkInstance?.render(
+            assetFile, FileUtils.assetToString(context, assetFile),
+            configMap, null,
+            WXRenderStrategy.APPEND_ASYNC
+        )
     }
 
     fun release() {
@@ -140,14 +171,20 @@ class WEEXContainer(private val weexHolder: ViewGroup,
                     configMap["bundleUrl"] = url
 
                     when {
-                        TextUtils.equals(uri.getQueryParameter("__eagle"),
-                            Boolean.TRUE.toString()) -> {
-                            sdkInstance?.render(pageName,
-                                task.response.data, configMap, null)
+                        TextUtils.equals(
+                            uri.getQueryParameter("__eagle"),
+                            Boolean.TRUE.toString()
+                        ) -> {
+                            sdkInstance?.render(
+                                pageName,
+                                task.response.data, configMap, null
+                            )
                         }
 
-                        TextUtils.equals(uri.getQueryParameter("__data_render"),
-                            Boolean.TRUE.toString()) -> {
+                        TextUtils.equals(
+                            uri.getQueryParameter("__data_render"),
+                            Boolean.TRUE.toString()
+                        ) -> {
                             sdkInstance?.render(
                                 pageName,
                                 String(task.response.data, charsetUtf8),
@@ -157,8 +194,10 @@ class WEEXContainer(private val weexHolder: ViewGroup,
                             )
                         }
 
-                        TextUtils.equals(uri.getQueryParameter("__json_render"),
-                            Boolean.TRUE.toString()) -> {
+                        TextUtils.equals(
+                            uri.getQueryParameter("__json_render"),
+                            Boolean.TRUE.toString()
+                        ) -> {
                             sdkInstance?.render(
                                 pageName,
                                 String(task.response.data, charsetUtf8),
@@ -196,14 +235,20 @@ class WEEXContainer(private val weexHolder: ViewGroup,
         WXHttpManager.getInstance().sendRequest(httpTask)
     }
 
-    private fun createWeexInstance(url: String,
-                                   renderContainer: WXAbstractRenderContainer): WXSDKInstance {
+    private fun createWeexInstance(
+        renderContainer: WXAbstractRenderContainer,
+        url: String?
+    ): WXSDKInstance {
         val context = weexHolder.context
 
-        val sdkInstance = WXPreLoadManager.getInstance()
-            .offerPreInitInstance(url)?.apply {
-                init(context)
-            } ?: WXSDKInstance(context)
+        val sdkInstance = if (url == null) {
+            WXSDKInstance(context)
+        } else {
+            WXPreLoadManager.getInstance()
+                .offerPreInitInstance(url)?.apply {
+                    init(context)
+                } ?: WXSDKInstance(context)
+        }
 
         sdkInstance.apply {
             setWXAbstractRenderContainer(renderContainer)
@@ -243,9 +288,11 @@ class WEEXContainer(private val weexHolder: ViewGroup,
             ensureLayoutOnSize(width, height)
        }
 
-        override fun onException(instance: WXSDKInstance?,
-                                 errCode: String,
-                                 msg: String) {
+        override fun onException(
+            instance: WXSDKInstance?,
+            errCode: String,
+            msg: String
+        ) {
             Logger.debug("[WXLifecycle] exception occurred: $sdkInstance")
 
             progressBar?.visibility = View.GONE

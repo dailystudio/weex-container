@@ -45,6 +45,11 @@ class SingleWEEXFragment: Fragment() {
         Logger.debug("[WXLifecycle] load by url: fragment view = $view")
         container?.loadPageByUrl(uri)
     }
+
+    fun loadPageFromAsset(uri: Uri) {
+        Logger.debug("[WXLifecycle] load from asset: fragment view = $view")
+        container?.loadFromAsset(uri)
+    }
 /*
     override fun onRequestPermissionsResult(
         requestCode: Int,
